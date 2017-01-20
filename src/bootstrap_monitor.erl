@@ -193,8 +193,10 @@ report(Handlers, visible, Node, up) ->
     %% This may block the whole server for some time. However, for the sake of
     %% correctness, we still must do it this way, because the last thing we
     %% want is disordered up/down messages from a node.
-    Time = element(1, timer:tc(global, sync, [])) div 1000,
-    ?DBG("Global synchronization took ~pms.~n", [Time]),
+    %% TODO: Fix it the correct way, but for now comment out
+    %% so that there is no locking here for seemingly a very long time.
+    % Time = element(1, timer:tc(global, sync, [])) div 1000,
+    % ?DBG("Global synchronization took ~pms.~n", [Time]),
     [Handler ! ?BOOTSTRAP_UP(Node) || Handler <- Handlers];
 report(Handlers, hidden, Node, up) ->
     [Handler ! ?BOOTSTRAP_UP(Node) || Handler <- Handlers];
